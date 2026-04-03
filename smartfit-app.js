@@ -427,7 +427,7 @@ Current user plan:
                 { id: 'water',       name: 'Drink Water',     points: 1 },
                 { id: 'clean-eat',   name: 'Clean Eating',    points: 1 },
                 { id: 'protein',     name: 'Protein Goal',    points: 1 },
-                { id: 'meditation',  name: 'Meditation',      points: 1 },
+                { id: 'meditation',  name: 'Salah(الصلاة)',      points: 1 },
                 { id: 'no-junk',     name: 'No Junk Food',    points: 1 },
                 { id: 'screen',      name: 'Screen <2h',      points: 1 },
                 { id: 'journal',     name: 'Journaling',      points: 1 }
