@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFit AI | Premium Fitness Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="smartfit-styles.css">
+</head>
+<body>
+    <!-- Animated Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar container">
+        <div class="logo">
+            <div class="logo-icon">SF</div>
+            SmartFit 
+        </div>
+        <div class="nav-controls">
+            <button id="theme-toggle" class="btn-icon" title="Toggle Light Mode">Light</button>
+        </div>
+    </nav>
+
+    <!-- Tab Navigation -->
+    <div class="container">
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('plan', this)">Plan Overview</button>
+            <button class="tab-btn" onclick="switchTab('tracker', this)">30-Day Tracker</button>
+        </div>
+    </div>
+
+    <!-- ===================== TAB 1: MY PLAN ===================== -->
+    <div id="tab-plan" class="tab-content active">
+        <main class="container">
+            <!-- Hero Section -->
+            <section id="hero-section">
+                <div class="hero-section" style="padding: 60px 0 80px;">
+                    <div class="hero-badge"><span>AI</span> AI-Powered Fitness Revolution</div>
+                    <h1 class="hero-title">
+                        Your <span class="gradient-text">Smart Fitness</span><br>
+                        Journey Starts Here
+                    </h1>
+                    <p class="hero-subtitle">
+                        Get personalized workout routines and nutrition plans tailored to your goals.
+                        Powered by AI, designed for Tunisians.
+                    </p>
+                    <div class="hero-cta">
+                        <button class="btn btn-primary" onclick="app.transitionTo('input-section')">
+                            Start Your Analysis <span>></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input Section -->
+            <section id="input-section" class="hidden">
+                <div class="form-card card">
+                    <div class="card-header">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div class="card-icon">PF</div>
+                            <h2 class="card-title">Your Profile</h2>
+                        </div>
+                    </div>
+                    <form onsubmit="event.preventDefault(); app.generatePlan();">
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="75" min="30" max="300" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="height" placeholder="175" min="100" max="250" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fitness Goal</label>
+                            <select id="goal">
+                                <option value="lose">Weight Loss</option>
+                                <option value="gain">Muscle Gain</option>
+                                <option value="health">General Health</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">
+                            Generate My Plan
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="hidden">
+                <div class="dashboard-header">
+                    <h2 class="dashboard-title">Your Dashboard</h2>
+                    <button class="btn btn-outline" onclick="app.transitionTo('input-section')">New Analysis</button>
+                </div>
+
+                <div id="ai-update-msg" class="success-box hidden" style="margin-bottom:20px;">
+                    <strong>AI Update:</strong> <span id="update-text">Plan modified!</span>
+                </div>
+
+                <div class="grid-layout">
+                    <!-- BMI Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div class="card-icon">BMI</div>
+                                <h3 class="card-title">BMI Analysis</h3>
+                            </div>
+                        </div>
+                        <div class="bmi-display">
+                            <div id="bmi-val" class="bmi-number">--</div>
+                            <div id="bmi-status" class="bmi-status">--</div>
+                        </div>
+                        <div class="gauge-container">
+                            <div id="bmi-marker" class="gauge-marker" style="left:50%"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+                            <span>Underweight</span><span>Healthy</span><span>Overweight</span><span>Obese</span>
+                        </div>
+                        <div id="health-alert" class="alert-box hidden"></div>
+                    </div>
+
+                    <!-- Nutrition Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div class="card-icon">NP</div>
+                                <h3 class="card-title">Nutrition Plan</h3>
+                            </div>
+                        </div>
+                        <p id="macro-info" style="color:var(--primary);font-weight:600;margin-bottom:14px;"></p>
+                        <ul id="meal-list" class="meal-list"></ul>
+                    </div>
+
+                    <!-- Workout Card -->
+                    <div class="card full-span">
+                        <div class="card-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div class="card-icon">WR</div>
+                                <h3 class="card-title">Workout Routine</h3>
+                            </div>
+                        </div>
+                        <p id="workout-summary" style="color:var(--text-secondary);margin-bottom:14px;font-size:0.9rem;"></p>
+                        <table class="workout-table">
+                            <thead>
+                                <tr>
+                                    <th>Exercise</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workout-rows"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ===================== TAB 2: 30-DAY TRACKER ===================== -->
+    <div id="tab-tracker" class="tab-content">
+        <div class="container">
+
+            <!-- Stats Overview -->
+            <div class="stats-grid" style="margin-top:8px;">
+                <div class="stat-card">
+                    <div class="stat-label">Current Streak</div>
+                    <div class="stat-value" id="total-streak">0</div>
+                    <div class="stat-label">Days</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Gym Sessions</div>
+                    <div class="stat-value" id="gym-count">0</div>
+                    <div class="stat-label">This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Sleep</div>
+                    <div class="stat-value" id="avg-sleep">0</div>
+                    <div class="stat-label">Hours/Night</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Points</div>
+                    <div class="stat-value" id="total-points">0</div>
+                    <div class="stat-label">Earned</div>
+                </div>
+            </div>
+
+            <!-- Habits Dashboard -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><span>HB</span> 30-Day Habits Dashboard</h2>
+                    <button class="btn btn-outline" onclick="tracker.resetMonth()" style="font-size:0.85rem;">New Month</button>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="habits-table" id="habits-table">
+                        <thead><tr><th>Habits</th></tr></thead>
+                        <tbody id="habits-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sleep Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><span>SL</span> Sleep Tracker</h2>
+                    <div>
+                        <label style="color:var(--text-secondary);margin-right:8px;font-size:0.88rem;">Tonight's Sleep:</label>
+                        <select id="sleep-input" class="sleep-select" onchange="tracker.updateSleep()">
+                            <option value="0">Not tracked</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4 hours</option>
+                            <option value="5">5 hours</option>
+                            <option value="6">6 hours</option>
+                            <option value="7">7 hours</option>
+                            <option value="8">8 hours</option>
+                            <option value="9">9 hours</option>
+                            <option value="10">10 hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sleep-chart" id="sleep-chart">
+                    <div class="sleep-grid">
+                        <div class="sleep-grid-line"><span class="sleep-grid-label">10h</span></div>
+                        <div class="sleep-grid-line"><span class="sleep-grid-label">8h</span></div>
+                        <div class="sleep-grid-line"><span class="sleep-grid-label">6h</span></div>
+                        <div class="sleep-grid-line"><span class="sleep-grid-label">4h</span></div>
+                        <div class="sleep-grid-line"><span class="sleep-grid-label">2h</span></div>
+                    </div>
+                    <div class="sleep-plot" id="sleep-plot"></div>
+                </div>
+            </div>
+
+            <!-- Mood Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><span>MD</span> Mood Tracker</h2>
+                </div>
+                <div class="mood-selector">
+                    <div class="mood-option" onclick="tracker.setMood('Happy')">Happy</div>
+                    <div class="mood-option" onclick="tracker.setMood('Neutral')">Neutral</div>
+                    <div class="mood-option" onclick="tracker.setMood('Sad')">Sad</div>
+                    <div class="mood-option" onclick="tracker.setMood('Motivated')">Motivated</div>
+                    <div class="mood-option" onclick="tracker.setMood('Tired')">Tired</div>
+                    <div class="mood-option" onclick="tracker.setMood('Sick')">Sick</div>
+                </div>
+                <div class="mood-tracker" id="mood-tracker"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Chatbot (always visible) -->
+    <button class="chat-toggle-btn" onclick="chatbot.toggle()">Chat</button>
+    <div id="chat-window" class="chat-window hidden">
+        <div class="chat-header">
+            <span>AI Coach</span>
+            <button class="chat-close" onclick="chatbot.toggle()">X</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="msg bot">Hi! I'm your AI fitness coach. Generate your plan first, then ask me to modify anything!</div>
+        </div>
+        <div class="quick-actions">
+            <button class="quick-btn" onclick="chatbot.quickSend('Remove push-ups')">No push-ups</button>
+            <button class="quick-btn" onclick="chatbot.quickSend('I hate fish')">No fish</button>
+            <button class="quick-btn" onclick="chatbot.quickSend('Give me an easier workout')">Easier</button>
+            <button class="quick-btn" onclick="chatbot.quickSend('Add more protein meals')">More protein</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask me to change your plan...">
+            <button class="chat-send-btn" onclick="chatbot.send()">Send</button>
+        </div>
+    </div>
+
+    <script src="smartfit-app.js"></script>
+</body>
+</html>
+
+
