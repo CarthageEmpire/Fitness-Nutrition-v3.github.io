@@ -858,15 +858,45 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
         /* === RESPONSIVE === */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-subtitle { font-size: 1rem; }
-            .grid-layout { grid-template-columns: 1fr; }
-            .chat-window { width: calc(100vw - 32px); right: 16px; bottom: 100px; }
-            .chat-toggle-btn { right: 16px; bottom: 16px; }
-            .tab-btn { font-size: 0.82rem; padding: 10px 12px; }
-            .dashboard-title { font-size: 1.7rem; }
-        }
+      @media (max-width: 768px) {
+    .hero-title { font-size: 2.2rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .dashboard-title { font-size: 1.5rem; text-align: center; }
+    
+    .container { padding: 0 15px; }
+
+    .tab-nav {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .tab-btn {
+        flex: 1; 
+        font-size: 0.85rem; 
+        padding: 12px 8px;
+        text-align: center;
+    }
+
+    .grid-layout { grid-template-columns: 1fr; gap: 15px; }
+
+    .tracker-grid {
+        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+        gap: 8px;
+    }
+
+    .chat-window { 
+        width: calc(100vw - 32px); 
+        right: 16px; 
+        bottom: 80px; 
+        max-height: 60vh; 
+    }
+    
+    .chat-toggle-btn { right: 16px; bottom: 16px; }
+
+    body { padding-bottom: 80px; }
+}
 
         /* Sleep select styling */
         .sleep-select {
