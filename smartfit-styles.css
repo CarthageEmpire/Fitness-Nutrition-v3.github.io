@@ -946,3 +946,11 @@
             font-family: 'Outfit', sans-serif;
             font-size: 0.9rem;
         }
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .workout-table {
+            min-width: 600px; /* important for mobile */
+        }
