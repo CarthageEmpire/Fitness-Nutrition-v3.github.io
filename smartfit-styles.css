@@ -858,46 +858,84 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
         /* === RESPONSIVE === */
-      @media (max-width: 768px) {
+     /* === RESPONSIVE IMPROVEMENTS === */
+@media (max-width: 768px) {
+    /* 1. Typography & Container */
     .hero-title { font-size: 2.2rem; }
     .hero-subtitle { font-size: 1rem; }
-    .dashboard-title { font-size: 1.5rem; text-align: center; }
-    
-    .container { padding: 0 15px; }
+    .dashboard-title { font-size: 1.6rem; text-align: center; }
+    .container { padding: 0 16px; }
 
+    /* 2. Fix Tab Buttons: Equal width and readable */
     .tab-nav {
         display: flex;
         width: 100%;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .tab-btn {
-        flex: 1; 
-        font-size: 0.85rem; 
-        padding: 12px 8px;
-        text-align: center;
-    }
-
-    .grid-layout { grid-template-columns: 1fr; gap: 15px; }
-
-    .tracker-grid {
-        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
         gap: 8px;
+        padding: 5px;
+        background: var(--bg-tertiary);
+    }
+    .tab-btn {
+        flex: 1; /* Makes both buttons exactly the same size */
+        padding: 14px 5px;
+        font-size: 0.85rem;
+        white-space: nowrap; /* Prevents text from wrapping to 2 lines */
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .chat-window { 
-        width: calc(100vw - 32px); 
-        right: 16px; 
-        bottom: 80px; 
-        max-height: 60vh; 
+    /* 3. Fix Workout Table: Prevent squishing */
+    .card {
+        padding: 20px 15px;
+        overflow-x: hidden; /* Keep the card itself contained */
     }
-    
-    .chat-toggle-btn { right: 16px; bottom: 16px; }
 
-    body { padding-bottom: 80px; }
+    /* Wrap your table in a div with this class if it overflows, 
+       or use this direct table fix: */
+    .tab-content {
+        overflow-x: auto; /* Allows swiping left/right on the whole section if needed */
+    }
+
+    .workout-table {
+        display: block; /* Allows horizontal scrolling */
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-collapse: collapse;
+        min-width: 550px; /* Forces enough width so columns don't crush text */
+    }
+
+    /* 4. Action Buttons (Generate/Reset) */
+    .btn-primary, .btn-outline {
+        width: 100%; /* Full width buttons are better for mobile thumbs */
+        margin-bottom: 10px;
+        padding: 16px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* 5. Grid Layouts */
+    .grid-layout, .stats-grid {
+        grid-template-columns: 1fr !important; /* Force everything to stack */
+        gap: 16px;
+    }
+
+    /* 6. Fix Chatbot Proportions */
+    .chat-window {
+        width: calc(100vw - 32px);
+        right: 16px;
+        bottom: 90px;
+        height: 60vh;
+    }
+
+    /* Ensure the user can scroll to the bottom past the floating button */
+    body {
+        padding-bottom: 100px;
+    }
 }
-
         /* Sleep select styling */
         .sleep-select {
             background: var(--bg-secondary);
